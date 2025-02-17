@@ -1,11 +1,11 @@
-menu = """
-
-[d] Depositar
-[s] Sacar
-[e] Extrato
-[q] Sair
-
-=> """
+def menu():
+    menu = """
+    [d] Depositar
+    [s] Sacar
+    [e] Extrato
+    [q] Sair
+    =>"""
+    return input(menu)
 
 saldo = 0
 limite = 500
@@ -15,7 +15,7 @@ LIMITE_SAQUES = 3
 
 while True:
 
-    opcao = input(menu)
+    opcao = menu()
 
     if opcao == "d":
         valor = float(input("Informe o valor do depósito: "))
