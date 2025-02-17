@@ -4,6 +4,8 @@ def menu():
     [s] Sacar
     [e] Extrato
     [nu] Novo usuário
+    [nc] Nova conta
+    [lc] Listar contas
     [q] Sair
     =>"""
     return input(menu)
@@ -67,13 +69,37 @@ def filtrar_usuario(cpf, usuarios):
     usuarios_filtrados = [usuario for usuario in usuarios if usuario["cpf"] == cpf]
     return usuarios_filtrados[0] if usuarios_filtrados else None
 
+def criar_conta(agencia, numero_conta, usuarios):
+    cpf = input("Informe o CPF do usuário: ")
+    usuario = filtrar_usuario(cpf, usuarios)
+
+    if usuario:
+        print("\n=== Conta criada com sucesso! ===")
+        return {"agencia": agencia, "numero_conta": numero_conta, "usuario": usuario}
+
+    print("\nUsuário não encontrado, fluxo de criação de conta encerrado!")
+
+
+def listar_contas(contas):
+    for conta in contas:
+        linha = f"""\
+            Agência:\t{conta['agencia']}
+            C/C:\t\t{conta['numero_conta']}
+            Titular:\t{conta['usuario']['nome']}
+        """
+        print("=" * 100)
+        print(linha)
+
+
 def main():
     saldo = 0
     limite = 500
     extrato = ""
     numero_saques = 0
     LIMITE_SAQUES = 3
+    AGENCIA = "0001"
     usuarios = []
+    contas = []
 
     while True:
 
@@ -99,6 +125,16 @@ def main():
 
         elif opcao == "nu":
             criar_usuario(usuarios)
+
+        elif opcao == "nc":
+            numero_conta = len(contas) + 1
+            conta = criar_conta(AGENCIA, numero_conta, usuarios)
+
+            if conta:
+                contas.append(conta)
+
+        elif opcao == "lc":
+            listar_contas(contas)
 
         elif opcao == "q":
             break
