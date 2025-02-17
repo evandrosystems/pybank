@@ -7,6 +7,16 @@ def menu():
     =>"""
     return input(menu)
 
+def depositar(saldo, valor, extrato, /):
+    if(valor > 0):
+        saldo += valor
+        extrato += f"Depósito: R$ {valor:.2f}\n"
+        print(("\n=== Depósito realizado com sucesso! ==="))
+    else:
+        print("O valor informado é inválido.")
+
+    return saldo, extrato
+
 def main():
     saldo = 0
     limite = 500
@@ -20,13 +30,7 @@ def main():
 
         if opcao == "d":
             valor = float(input("Informe o valor do depósito: "))
-
-            if valor > 0:
-                saldo += valor
-                extrato += f"Depósito: R$ {valor:.2f}\n"
-
-            else:
-                print("O valor informado é inválido.")
+            saldo, extrato = depositar(saldo, valor, extrato)
 
         elif opcao == "s":
             valor = float(input("Informe o valor do saque: "))
