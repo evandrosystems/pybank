@@ -287,14 +287,18 @@ def filtrar_usuario(cpf, usuarios):
     return usuarios_filtrados[0] if usuarios_filtrados else None
 
 def criar_conta(agencia, numero_conta, usuarios):
-    cpf = input("Informe o CPF do usuário: ")
-    usuario = filtrar_usuario(cpf, usuarios)
+    cpf = input("Informe o CPF do cliente: ")
+    cliente = filtrar_cliente(cpf, clientes)
 
-    if usuario:
-        print("\n=== Conta criada com sucesso! ===")
-        return {"agencia": agencia, "numero_conta": numero_conta, "usuario": usuario}
+    if not cliente:
+        print("\n@@@ Cliente não encontrado, fluxo de criação de conta encerrado! @@@")
+        return
 
-    print("\nUsuário não encontrado, fluxo de criação de conta encerrado!")
+    conta = ContaCorrente.nova_conta(cliente=cliente, numero=numero_conta)
+    contas.append(conta)
+    cliente.contas.append(conta)
+
+    print("\n=== Conta criada com sucesso! ===")
 
 
 def listar_contas(contas):
