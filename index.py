@@ -300,17 +300,10 @@ def criar_conta(agencia, numero_conta, usuarios):
 
     print("\n=== Conta criada com sucesso! ===")
 
-
 def listar_contas(contas):
     for conta in contas:
-        linha = f"""\
-            Agência:\t{conta['agencia']}
-            C/C:\t\t{conta['numero_conta']}
-            Titular:\t{conta['usuario']['nome']}
-        """
         print("=" * 100)
-        print(linha)
-
+        print(textwrap.dedent(str(conta)))
 
 def main():
     saldo = 0
