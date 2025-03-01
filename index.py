@@ -267,25 +267,7 @@ def exibir_extrato(clientes):
     print(extrato)
     print(f"\nSaldo:\n\tR$ {conta.saldo:.2f}")
     print("==========================================")
-
-def criar_usuario(usuarios):
-    cpf = input("Informe o CPF (somente número): ")
-    usuario = filtrar_usuario(cpf, usuarios)
-
-    if usuario:
-        print("\nJá existe usuário com esse CPF!")
-        return
-
-    nome = input("Informe o nome completo: ")
-
-    usuarios.append({"nome": nome, "cpf": cpf})
-
-    print("=== Usuário criado com sucesso! ===")
-
-def filtrar_usuario(cpf, usuarios):
-    usuarios_filtrados = [usuario for usuario in usuarios if usuario["cpf"] == cpf]
-    return usuarios_filtrados[0] if usuarios_filtrados else None
-
+    
 def criar_conta(agencia, numero_conta, usuarios):
     cpf = input("Informe o CPF do cliente: ")
     cliente = filtrar_cliente(cpf, clientes)
