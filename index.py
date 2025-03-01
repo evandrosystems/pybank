@@ -165,7 +165,7 @@ class Deposito(Transacao):
 
         if sucesso_transacao:
             conta.historico.adicionar_transacao(self)
-                  
+
 def menu():
     menu = """
     [d] Depositar
@@ -178,6 +178,10 @@ def menu():
     =>"""
     return input(menu)
 
+def filtrar_cliente(cpf, clientes):
+    clientes_filtrados = [cliente for cliente in clientes if cliente.cpf == cpf]
+    return clientes_filtrados[0] if clientes_filtrados else None
+    
 def depositar(saldo, valor, extrato, /):
     if(valor > 0):
         saldo += valor
