@@ -167,16 +167,17 @@ class Deposito(Transacao):
             conta.historico.adicionar_transacao(self)
 
 def menu():
-    menu = """
-    [d] Depositar
-    [s] Sacar
-    [e] Extrato
-    [nu] Novo usuário
-    [nc] Nova conta
-    [lc] Listar contas
-    [q] Sair
+    menu = """\n
+    ============== MENU ================
+    [d]\tDepositar
+    [s]\tSacar
+    [e]\tExtrato
+    [nu]\tNovo cliente
+    [nc]\tNova conta
+    [lc]\tListar contas
+    [q]\tSair
     =>"""
-    return input(menu)
+    return input(textwrap.dedent(menu))
 
 def filtrar_cliente(cpf, clientes):
     clientes_filtrados = [cliente for cliente in clientes if cliente.cpf == cpf]
@@ -267,8 +268,8 @@ def exibir_extrato(clientes):
     print(extrato)
     print(f"\nSaldo:\n\tR$ {conta.saldo:.2f}")
     print("==========================================")
-    
-def criar_conta(agencia, numero_conta, usuarios):
+
+def criar_conta(numero_conta, clientes, contas):
     cpf = input("Informe o CPF do cliente: ")
     cliente = filtrar_cliente(cpf, clientes)
 
@@ -288,13 +289,7 @@ def listar_contas(contas):
         print(textwrap.dedent(str(conta)))
 
 def main():
-    saldo = 0
-    limite = 500
-    extrato = ""
-    numero_saques = 0
-    LIMITE_SAQUES = 3
-    AGENCIA = "0001"
-    usuarios = []
+    clientes = []
     contas = []
 
     while True:
@@ -302,29 +297,20 @@ def main():
         opcao = menu()
 
         if opcao == "d":
-            valor = float(input("Informe o valor do depósito: "))
-            saldo, extrato = depositar(saldo, valor, extrato)
+            depositar(clientes)
 
         elif opcao == "s":
-            valor = float(input("Informe o valor do saque: "))
-            saldo, extrato = sacar(
-                saldo=saldo,
-                valor=valor,
-                extrato=extrato,
-                limite=limite,
-                numero_saques=numero_saques,
-                limite_saques=LIMITE_SAQUES
-            )
+            sacar(clientes)
 
         elif opcao == "e":
-            exibir_extrato(saldo, extrato=extrato)
+            exibir_extrato(clientes)
 
         elif opcao == "nu":
-            criar_usuario(usuarios)
+            criar_cliente(clientes)
 
         elif opcao == "nc":
             numero_conta = len(contas) + 1
-            conta = criar_conta(AGENCIA, numero_conta, usuarios)
+            conta = criar_conta(numero_conta, clientes, contas)
 
             if conta:
                 contas.append(conta)
