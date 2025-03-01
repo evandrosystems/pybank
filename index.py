@@ -225,30 +225,22 @@ def depositar(clientes):
 
     cliente.realizar_transacao(conta, transacao)
 
-def sacar(*, saldo, valor, extrato, limite, numero_saques, limite_saques):
-    excedeu_saldo = valor > saldo
-    excedeu_limite = valor > limite
-    excedeu_saques = numero_saques >= limite_saques
+def sacar(clientes):
+    cpf = input("Informe o CPF do cliente: ")
+    cliente = filtrar_cliente(cpf, clientes)
 
-    if excedeu_saldo:
-        print("\nVocê não tem saldo suficiente.")
+    if not cliente:
+        print("\n@@@ Cliente não encontrado! @@@")
+        return
 
-    elif excedeu_limite:
-        print("\nO valor do saque excede o limite.")
+    valor = float(input("Informe o valor do saque: "))
+    transacao = Saque(valor)
 
-    elif excedeu_saques:
-        print("\nNúmero máximo de saques excedido.")
+    conta = recuperar_conta_cliente(cliente)
+    if not conta:
+        return
 
-    elif valor > 0:
-        saldo -= valor
-        extrato += f"Saque:\t\tR$ {valor:.2f}\n"
-        numero_saques += 1
-        print("\n=== Saque realizado com sucesso! ===")
-
-    else:
-        print("\nO valor informado é inválido.")
-
-    return saldo, extrato
+    cliente.realizar_transacao(conta, transacao)
 
 def exibir_extrato(saldo, /, *, extrato):
     print("\n================ EXTRATO ================")
