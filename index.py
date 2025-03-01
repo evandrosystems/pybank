@@ -128,6 +128,16 @@ class Historico:
             }
         )
 
+class Transacao(ABC):
+    @property
+    @abstractproperty
+    def valor(self):
+        pass
+
+    @abstractclassmethod
+    def registrar(self, conta):
+        pass
+    
 def menu():
     menu = """
     [d] Depositar
