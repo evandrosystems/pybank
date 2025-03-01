@@ -208,15 +208,22 @@ def criar_cliente(clientes):
 
     print("\n=== Cliente criado com sucesso! ===")
 
-def depositar(saldo, valor, extrato, /):
-    if(valor > 0):
-        saldo += valor
-        extrato += f"Depósito: R$ {valor:.2f}\n"
-        print(("\n=== Depósito realizado com sucesso! ==="))
-    else:
-        print("O valor informado é inválido.")
+def depositar(clientes):
+    cpf = input("Informe o CPF do cliente: ")
+    cliente = filtrar_cliente(cpf, clientes)
 
-    return saldo, extrato
+    if not cliente:
+        print("\n@@@ Cliente não encontrado! @@@")
+        return
+
+    valor = float(input("Informe o valor do depósito: "))
+    transacao = Deposito(valor)
+
+    conta = recuperar_conta_cliente(cliente)
+    if not conta:
+        return
+
+    cliente.realizar_transacao(conta, transacao)
 
 def sacar(*, saldo, valor, extrato, limite, numero_saques, limite_saques):
     excedeu_saldo = valor > saldo
